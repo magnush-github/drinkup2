@@ -29,7 +29,7 @@ const Layout = () => {
         </nav>
         <div
           className="flex flex-col items-center mx-6 md:mx-0"
-          style={{ minHeight: "500px" }}
+          style={{ minHeight: "600px" }}
         >
           <Outlet />
         </div>

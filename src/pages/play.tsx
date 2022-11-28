@@ -26,7 +26,7 @@ const Play = () => {
     setSong(_song);
   };
   return (
-    <div style={{ height: "500px" }} className="flex flex-col justify-center">
+    <div style={{ height: "600px" }} className="flex flex-col justify-center">
       {status === "new" && (
         <ChooseDifficulty
           changeStatus={changeStatus}
