@@ -2,8 +2,8 @@ import { Link, Outlet } from "react-router-dom";
 
 const Layout = () => {
   return (
-    <div className="bg-[#4caf50] ">
-      <main>
+    <div className="bg-[#4caf50]">
+      <main className="flex flex-col justify-between min-h-screen">
         <nav
           className="h-20 bg-black text-white flex items-center"
           style={{ height: "100px" }}
@@ -27,14 +27,11 @@ const Layout = () => {
             </li>
           </ul>
         </nav>
-        <div
-          className="flex flex-col items-center mx-6 md:mx-0"
-          style={{ minHeight: "600px" }}
-        >
+        <div className="flex flex-col items-center mx-6 md:mx-0">
           <Outlet />
         </div>
+        <footer className="bg-black" style={{ height: "100px" }}></footer>
       </main>
-      <footer className="bg-black" style={{ height: "100px" }}></footer>
     </div>
   );
 };

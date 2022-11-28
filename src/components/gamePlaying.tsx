@@ -15,7 +15,7 @@ const GamePlaying = ({ changeStatus, song }: IProps) => {
     }, Math.floor(Math.random() * (30 - 3 + 1) + 3) * 1000);
   }, [changeStatus]);
   useEffect(() => {
-    if (song === "nostalgi") setSongType("nostalgi");
+    if (song.trim().toLocaleLowerCase() === "nostalgi") setSongType("nostalgi");
     else if (song) setSongType("youtube");
     else setSongType("default");
   }, [song]);

@@ -19,6 +19,7 @@ const AddChallenge = ({ newChallenge }: IProps) => {
       <textarea
         name="description"
         id="description"
+        autoFocus
         onChange={(e) =>
           setChallenge({ ...challenge, description: e.target.value })
         }
