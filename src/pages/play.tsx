@@ -26,7 +26,7 @@ const Play = () => {
     setSong(_song);
   };
   return (
-    <div className="my-8">
+    <div className="">
       {status === "new" && (
         <ChooseDifficulty
           changeStatus={changeStatus}

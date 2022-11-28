@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 const Home = () => {
   return (
-    <div className="-mt-24 flex flex-col max-w-md items-center ">
+    <div className=" flex flex-col max-w-md items-center justify-start ">
       <h1 className="text-2xl text-center font-bold mb-6">Drink Up!</h1>
       <p data-testid="home-info" className="font-semibold">
         Click play to begin. Pass the phone (object) from person to person. When
