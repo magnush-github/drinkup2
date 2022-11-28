@@ -6,7 +6,7 @@ const Layout = () => {
       <main>
         <nav
           className="h-20 bg-black text-white flex items-center"
-          style={{ height: "15vh" }}
+          style={{ height: "100px" }}
         >
           <ul className="flex justify-between w-full text-center items-center text-xl font-bold">
             <li className="w-2/5 flex justify-center items-center">
@@ -28,13 +28,13 @@ const Layout = () => {
           </ul>
         </nav>
         <div
-          className="mt-6 flex flex-col items-center mx-6 md:mx-0"
-          style={{ minHeight: "70vh" }}
+          className="flex flex-col items-center mx-6 md:mx-0"
+          style={{ minHeight: "500px" }}
         >
           <Outlet />
         </div>
       </main>
-      <footer className="bg-black" style={{ height: "15vh" }}></footer>
+      <footer className="bg-black" style={{ height: "100px" }}></footer>
     </div>
   );
 };

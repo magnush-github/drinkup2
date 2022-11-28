@@ -18,7 +18,7 @@ const Challenges = () => {
     setShowAddNewChallenge(false);
   }, [challenges.length]);
   return (
-    <div className="max-w-lg w-full">
+    <div className="max-w-lg mt-8 w-full">
       <h1 className="text-2xl font-bold text-center">Challenges</h1>
       {Object.entries(ChallengeDifficulty)
         .slice(4, 8)

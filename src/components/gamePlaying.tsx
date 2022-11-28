@@ -18,7 +18,7 @@ const GamePlaying = ({ changeStatus, song }: IProps) => {
     if (song === "nostalgi") setSongType("nostalgi");
     else if (song) setSongType("youtube");
     else setSongType("default");
-  }, []);
+  }, [song]);
   return (
     <>
       <p className="text-2xl font-bold">Pass the phone!</p>

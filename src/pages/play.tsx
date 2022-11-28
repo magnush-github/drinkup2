@@ -1,4 +1,3 @@
-import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 import { useState } from "react";
 import ChooseDifficulty from "../components/chooseDifficulty";
 import GamePlaying from "../components/gamePlaying";
@@ -27,7 +26,7 @@ const Play = () => {
     setSong(_song);
   };
   return (
-    <div style={{ height: "70vh" }} className="flex flex-col justify-center">
+    <div style={{ height: "500px" }} className="flex flex-col justify-center">
       {status === "new" && (
         <ChooseDifficulty
           changeStatus={changeStatus}
@@ -45,7 +44,7 @@ const Play = () => {
           changeStatus={changeStatus}
         />
       )}
-      <p className="underline text-red-700 font-bold text-center italic mt-2 underline-offset-2">
+      <p className="underline font-bold text-center italic mt-2 underline-offset-2">
         {errorMessage}
       </p>
     </div>

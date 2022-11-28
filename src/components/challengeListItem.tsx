@@ -37,7 +37,7 @@ const ChallengeListItem = (props: IProps) => {
       ) : (
         <>
           <p
-            className="max-w-[80%]"
+            className="max-w-[80%] cursor-pointer"
             id={challenge.id.toString()}
             onClick={() => setShowOptions(!showOptions)}
           >

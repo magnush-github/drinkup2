@@ -19,7 +19,7 @@ const ChallengeList = ({
   return (
     <>
       <div
-        className="flex items-center justify-between my-6"
+        className="flex items-center justify-between my-6 cursor-pointer"
         onClick={() => setShow(!show)}
       >
         <h2 className="text-xl font-bold">{difficulty}</h2>
