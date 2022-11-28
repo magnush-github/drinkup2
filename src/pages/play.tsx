@@ -26,7 +26,7 @@ const Play = () => {
     setSong(_song);
   };
   return (
-    <div className="">
+    <div className="grow flex flex-col justify-center gap-4">
       {status === "new" && (
         <ChooseDifficulty
           changeStatus={changeStatus}
@@ -44,7 +44,7 @@ const Play = () => {
           changeStatus={changeStatus}
         />
       )}
-      <p className="underline font-bold text-center italic mt-2 underline-offset-2">
+      <p className="underline font-bold text-center italic underline-offset-2">
         {errorMessage}
       </p>
     </div>
