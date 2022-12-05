@@ -45,12 +45,17 @@ const ChallengeListItem = (props: IProps) => {
           </p>
           {showOptions && (
             <div className="flex gap-4 items-center">
-              <span onClick={() => setEditing(true)} className="cursor-pointer">
+              <span
+                onClick={() => setEditing(true)}
+                className="cursor-pointer"
+                aria-label="edit challenge"
+              >
                 <AiFillEdit />
               </span>
               <span
                 onClick={() => deleteChallenge(challenge.id)}
                 className="cursor-pointer text-red-600 text-lg"
+                aria-label="delete challenge"
               >
                 <AiFillDelete />
               </span>

@@ -41,6 +41,7 @@ const ChooseDifficulty = ({
         type="text"
         name="song"
         id="song"
+        data-testid="song"
         className="mt-2 p-2 rounded"
         onChange={(e) => changeSong(e.target.value)}
       />

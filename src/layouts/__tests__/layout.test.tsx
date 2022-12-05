@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
+import { HashRouter } from "react-router-dom";
 import Layout from "../layout";
 
 test("renders learn react link", () => {
   render(
-    <BrowserRouter>
+    <HashRouter>
       <Layout />
-    </BrowserRouter>
+    </HashRouter>
   );
   const home = screen.getByTestId("logo");
   const play = screen.getByText("Play");

@@ -18,15 +18,14 @@ const ChallengeList = ({
   const [show, setShow] = useState(false);
   return (
     <>
-      <div
-        className="flex items-center justify-between my-6 cursor-pointer"
+      <button
+        className="flex w-full items-center justify-between my-6 cursor-pointer"
         onClick={() => setShow(!show)}
       >
-        <button>
-          <h2 className="text-xl font-bold">{difficulty}</h2>
-        </button>
+        <h2 className="text-xl font-bold">{difficulty}</h2>
+
         <span>{show ? <AiOutlineMinus /> : <AiOutlinePlus />}</span>
-      </div>
+      </button>
       <ul className="mx-0">
         {show &&
           challenges

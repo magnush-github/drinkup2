@@ -1,6 +1,6 @@
 {
   "name": "drinkup2",
-  "homepage": "https://magnush-github.github.io/drinkup2/#/",
+  "homepage": "http://magnus.harsem.net/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -26,7 +26,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "coverage": "react-scripts test --env=jsdom --watchAll=false --coverage"
   },
   "eslintConfig": {
     "extends": [

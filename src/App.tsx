@@ -4,6 +4,7 @@ import Layout from "./layouts/layout";
 import Home from "./pages/home";
 import Play from "./pages/play";
 import Challenges from "./pages/challenges";
+import NoPage from "./pages/noPage";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/play" element={<Play />} />
           <Route path="/challenges" element={<Challenges />} />
         </Route>
+        <Route path="*" element={<NoPage />} />
       </Routes>
     </HashRouter>
   );
