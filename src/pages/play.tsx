@@ -5,6 +5,7 @@ import ShowChallenge from "../components/showChallenge";
 import useChallenges from "../hooks/useChallenges";
 import { ChallengeDifficulty, Status } from "../types/types";
 import ReactPlayer from "react-player";
+import { debounce } from "lodash";
 
 const Play = () => {
   const [status, setStatus] = useState<Status>("new");
@@ -18,7 +19,8 @@ const Play = () => {
   const rP = useRef<any>();
 
   useEffect(() => {
-    if (song === "nostalgi")
+    if (song === "") setErrorMessage("");
+    else if (song === "nostalgi")
       audio.current = new Audio(require("../assets/drinkup.mp3"));
     else if (!song) audio.current = new Audio(require("../assets/hobbit.mp3"));
     else {
@@ -44,9 +46,10 @@ const Play = () => {
     }
     setErrorMessage("");
   };
-  const changeSong = (_song: string) => {
+
+  const changeSong = debounce((_song: string) => {
     setSong(_song);
-  };
+  }, 1000);
   const startPlaying = async (_status: Status) => {
     setErrorMessage("");
     if (!getRandomChallengeByDifficulty(difficulty)) {
