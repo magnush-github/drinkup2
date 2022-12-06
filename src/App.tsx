@@ -14,8 +14,8 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/play" element={<Play />} />
           <Route path="/challenges" element={<Challenges />} />
+          <Route path="*" element={<NoPage />} />
         </Route>
-        <Route path="*" element={<NoPage />} />
       </Routes>
     </HashRouter>
   );
