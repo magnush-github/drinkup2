@@ -19,19 +19,17 @@ const Play = () => {
   const rP = useRef<any>();
 
   useEffect(() => {
-    if (song === "") setErrorMessage("");
-    else if (song === "nostalgi")
+    if (song === "nostalgi")
       audio.current = new Audio(require("../assets/drinkup.mp3"));
-    else if (!song) audio.current = new Audio(require("../assets/hobbit.mp3"));
-    else {
-      if (getRandomChallengeByDifficulty(difficulty))
-        setErrorMessage("Player loading...");
+    else if (!song) {
+      setErrorMessage("");
+      audio.current = new Audio(require("../assets/hobbit.mp3"));
     }
     return () => {
       audio.current?.pause();
       audio.current = undefined;
     };
-  }, [song]);
+  }, [song, difficulty]);
 
   const changeStatus = (_status: Status) => {
     setStatus(_status);

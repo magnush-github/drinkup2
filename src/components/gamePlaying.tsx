@@ -11,7 +11,7 @@ const GamePlaying = ({ changeStatus }: IProps) => {
     return () => {
       clearTimeout(timeout);
     };
-  }, []);
+  }, [changeStatus]);
 
   return <p className="text-2xl font-bold">Pass the phone!</p>;
 };
