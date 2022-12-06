@@ -5,8 +5,6 @@ import ShowChallenge from "../components/showChallenge";
 import useChallenges from "../hooks/useChallenges";
 import { ChallengeDifficulty, Status } from "../types/types";
 import ReactPlayer from "react-player";
-import { debounce } from "lodash";
-
 const Play = () => {
   const [status, setStatus] = useState<Status>("new");
   const [difficulty, setDifficulty] = useState(0);
@@ -24,16 +22,14 @@ const Play = () => {
     else if (!song) {
       setErrorMessage("");
       audio.current = new Audio(require("../assets/hobbit.mp3"));
+    } else {
     }
     return () => {
       audio.current?.pause();
       audio.current = undefined;
     };
-  }, [song, difficulty]);
+  }, [song]);
 
-  const changeStatus = (_status: Status) => {
-    setStatus(_status);
-  };
   const changeDifficulty = (_difficulty: number) => {
     setDifficulty(_difficulty);
     if (!getRandomChallengeByDifficulty(_difficulty)) {
@@ -44,10 +40,9 @@ const Play = () => {
     }
     setErrorMessage("");
   };
-
-  const changeSong = debounce((_song: string) => {
+  const changeSong = (_song: string) => {
     setSong(_song);
-  }, 1000);
+  };
   const startPlaying = async (_status: Status) => {
     setErrorMessage("");
     if (!getRandomChallengeByDifficulty(difficulty)) {
@@ -58,7 +53,7 @@ const Play = () => {
     }
     if (song.trim().toLocaleLowerCase() === "nostalgi" || !song) {
       audio.current?.play();
-      changeStatus(_status);
+      setStatus(_status);
       return;
     }
     if (!playerReady) {
@@ -67,7 +62,7 @@ const Play = () => {
     }
     rP.current?.seekTo(0);
     setPlayerPlaying(true);
-    changeStatus(_status);
+    setStatus(_status);
   };
 
   const stopPlaying = (_status: Status) => {
@@ -76,7 +71,7 @@ const Play = () => {
       audio.current.pause();
       audio.current.currentTime = 0;
     }
-    changeStatus(_status);
+    setStatus(_status);
   };
   return (
     <div className="grow flex flex-col justify-center gap-4">
@@ -102,8 +97,8 @@ const Play = () => {
         playsinline
         onReady={() => {
           if (!getRandomChallengeByDifficulty(difficulty)) return;
-          setErrorMessage("Ready! Press play");
           setPlayerReady(true);
+          setErrorMessage("Ready! Press play");
         }}
         onStart={() => console.log("start")}
         url={song}
