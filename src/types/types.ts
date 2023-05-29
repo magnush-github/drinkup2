@@ -1,12 +1,6 @@
-export interface IChallenge {
-  id: number;
-  description: string;
-  difficulty: number;
-}
-export enum ChallengeDifficulty {
-  Weak = 0,
-  Medium = 1,
-  Hard = 2,
-  Colgate = 3,
+export interface IGame {
+  name: string;
+  challenges: string[];
+  id: string;
 }
 export type Status = "new" | "playing" | "stopped";

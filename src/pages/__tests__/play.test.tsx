@@ -1,7 +1,7 @@
 import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import ReactPlayer from "react-player";
-import ChooseDifficulty from "../../components/chooseDifficulty";
+import ChooseDifficulty from "../../components/chooseGame";
 import GamePlaying from "../../components/gamePlaying";
 import ShowChallenge from "../../components/showChallenge";
 import { defaultChallenges } from "../../utils/defaultChallenges";
@@ -29,7 +29,7 @@ describe("Play tests", () => {
     expect(getByRole("button", { name: /hard/i })).toBeInTheDocument();
     expect(getByRole("button", { name: /colgate/i })).toBeInTheDocument();
     expect(
-      screen.getByLabelText(/choose a song or leave blank/i)
+      screen.getByLabelText(/Paste a Youtube url or leave blank/i)
     ).toBeInTheDocument();
     expect(getByRole("button", { name: /start/i })).toBeInTheDocument();
     expect(screen.getByTestId("song")).toBeInTheDocument();
@@ -85,7 +85,7 @@ describe("Play tests", () => {
     const cSong = jest.fn();
     render(
       <ChooseDifficulty
-        changeDifficulty={cD}
+        changeGame={cD}
         changeSong={cSong}
         changeStatus={cStatus}
         difficulty={difficulty}

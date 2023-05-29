@@ -1,6 +1,6 @@
 {
   "name": "drinkup2",
-  "homepage": "http://magnus.harsem.net/",
+  "homepage": "https://harsem.net/drinkup",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -11,6 +11,7 @@
     "@types/node": "^16.18.3",
     "@types/react": "^18.0.25",
     "@types/react-dom": "^18.0.9",
+    "firebase": "^9.22.1",
     "lodash": "^4.17.21",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -18,6 +19,7 @@
     "react-icons": "^4.6.0",
     "react-player": "^2.11.0",
     "react-scripts": "5.0.1",
+    "react-youtube": "^10.1.0",
     "typescript": "^4.9.3",
     "web-vitals": "^2.1.4"
   },

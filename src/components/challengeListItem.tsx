@@ -1,26 +1,25 @@
 import React, { useState } from "react";
-import { IChallenge } from "../types/types";
 import PropTypes from "prop-types";
 import { AiFillEdit, AiFillDelete } from "react-icons/ai";
-interface IProps {
-  challenge: IChallenge;
+/* interface IProps {
+  challenge: string;
   deleteChallenge: (id: number) => void;
-  editChallenge: (challenge: IChallenge) => void;
-}
-const ChallengeListItem = (props: IProps) => {
-  const { challenge, deleteChallenge, editChallenge } = props;
+  editChallenge: (challenge: string) => void;
+} */
+const ChallengeListItem = (props: any) => {
+  const { challenge, deleteChallenge, editChallenge, index } = props;
   const [editing, setEditing] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
-  const [description, setDescription] = useState(challenge.description);
+  const [description, setDescription] = useState(challenge);
   const handleEdit = (e: React.SyntheticEvent) => {
     e.preventDefault();
     setEditing(false);
     setShowOptions(false);
-    editChallenge({ ...challenge, description });
+    editChallenge(index, description);
   };
 
   return (
-    <li className="flex mt-2 font-semibold justify-between" key={challenge.id}>
+    <li className="flex mt-2 font-semibold justify-between" key={challenge}>
       {editing ? (
         <form
           onSubmit={handleEdit}
@@ -38,10 +37,10 @@ const ChallengeListItem = (props: IProps) => {
         <>
           <p
             className="max-w-[80%] cursor-pointer"
-            id={challenge.id.toString()}
+            id={challenge}
             onClick={() => setShowOptions(!showOptions)}
           >
-            {challenge.description}
+            {challenge}
           </p>
           {showOptions && (
             <div className="flex gap-4 items-center">
@@ -53,9 +52,9 @@ const ChallengeListItem = (props: IProps) => {
                 <AiFillEdit />
               </span>
               <span
-                onClick={() => deleteChallenge(challenge.id)}
                 className="cursor-pointer text-red-600 text-lg"
                 aria-label="delete challenge"
+                onClick={() => deleteChallenge(index)}
               >
                 <AiFillDelete />
               </span>
@@ -67,8 +66,9 @@ const ChallengeListItem = (props: IProps) => {
   );
 };
 ChallengeListItem.propTypes = {
-  challenge: PropTypes.object,
+  challenge: PropTypes.string,
   deleteChallenge: PropTypes.func,
   editChallenge: PropTypes.func,
+  index: PropTypes.number,
 };
 export default ChallengeListItem;

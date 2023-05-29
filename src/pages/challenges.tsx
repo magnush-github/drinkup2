@@ -1,55 +1,41 @@
-import { useEffect, useState } from "react";
-import AddChallenge from "../components/addChallenge";
-import ChallengeList from "../components/challengeList";
+import { useState } from "react";
 import useChallenges from "../hooks/useChallenges";
-import { ChallengeDifficulty } from "../types/types";
+import ChooseExistingOrNew from "../components/chooseChallengeType";
+import NewGame from "../components/newGame";
+import ExistingGame from "../components/existingGame";
 
 const Challenges = () => {
-  const [
-    challenges,
-    editChallenge,
-    newChallenge,
-    deleteChallenge,
-    getChallengesByDifficulty,
-    setDefaultChallenges,
-  ] = useChallenges();
-  const [showAddChallenge, setShowAddNewChallenge] = useState(false);
-  useEffect(() => {
-    setShowAddNewChallenge(false);
-  }, [challenges.length]);
+  const { newGame, games, editChallenge } = useChallenges();
+  const [state, setState] = useState("Choose");
+  const handleStateChange = (_state: string) => {
+    setState(_state);
+  };
   return (
-    <div className="max-w-lg h-full w-full">
-      <h1 className="text-2xl font-bold text-center">Challenges</h1>
-      {Object.entries(ChallengeDifficulty)
-        .slice(4, 8)
-        .map(([difficulty, value]) => {
-          return (
-            <ChallengeList
-              key={value}
-              difficulty={difficulty}
-              challenges={getChallengesByDifficulty(Number(value))}
-              deleteChallenge={deleteChallenge}
-              editChallenge={editChallenge}
-            />
-          );
-        })}
-      <div className="flex justify-between gap-4">
+    <div className="max-w-lg h-full w-full  p-3 rounded">
+      <h1 className="text-2xl font-bold flex justify-between w-full">
         <button
-          className=" p-2 bg-black text-white rounded mt-6 w-1/2 font-semibold"
-          onClick={() => setDefaultChallenges()}
+          className="w-1/3 text-left font-bold text-2xl"
+          disabled={state === "Choose"}
+          onClick={() => setState("Choose")}
         >
-          Default challenges
+          {state !== "Choose" && <span>&lt;</span>}
         </button>
-        <button
-          className=" p-2 bg-black text-white rounded mt-6 w-1/2 font-semibold"
-          onClick={() => setShowAddNewChallenge(!showAddChallenge)}
-        >
-          Add challenge
-        </button>
-      </div>
-      <div className="mb-10">
-        {showAddChallenge && <AddChallenge newChallenge={newChallenge} />}
-      </div>
+        <span className="w-1/3 text-center">Challenges</span>
+        <div className="w-1/3"></div>
+      </h1>
+      {state === "Choose" && (
+        <ChooseExistingOrNew changeState={handleStateChange} />
+      )}
+      {state === "New" && (
+        <NewGame
+          newGame={newGame}
+          backToStart={handleStateChange}
+          games={games}
+        />
+      )}
+      {state === "Existing" && (
+        <ExistingGame games={games} editChallenge={editChallenge} />
+      )}
     </div>
   );
 };

@@ -1,16 +1,8 @@
-import { IChallenge } from "../types/types";
-export const localVar = "drinkupChallenges";
-export const getStorage = () => {
-  const localChallenges = localStorage.getItem(localVar);
-  try {
-    return localChallenges ? JSON.parse(localChallenges) : [];
-  } catch (e) {
-    console.log(`Error ${e}, while resetting challenges`);
-    setStorage([]);
-    return [];
-  }
-};
-
-export const setStorage = (challenges: IChallenge[]) => {
-  localStorage.setItem(localVar, JSON.stringify(challenges));
+export const youtubeParser = (url: string) => {
+  var regExp =
+    /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+  var match = url.match(regExp);
+  return match && match[7].length == 11
+    ? `https://www.youtube.com/watch?v=${match[7]}`
+    : url;
 };

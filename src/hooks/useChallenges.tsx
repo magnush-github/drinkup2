@@ -1,61 +1,61 @@
 import { useEffect, useState } from "react";
-import { IChallenge } from "../types/types";
-import { defaultChallenges } from "../utils/defaultChallenges";
-import { getStorage, setStorage } from "../utils/functions";
-
+import {
+  collection,
+  addDoc,
+  getDocs,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
+import { db } from "../services/firebase.config";
+import { IGame } from "../types/types";
+const collectionRef = collection(db, "game");
 const useChallenges = () => {
-  const [challenges, setChallenges] = useState<IChallenge[]>(() =>
-    getStorage()
-  );
+  const [games, setGames] = useState<IGame[]>([
+    { name: "", id: "", challenges: [] },
+  ]);
   useEffect(() => {
-    setStorage(challenges);
-  }, [challenges]);
-
-  const editChallenge = (challenge: IChallenge) => {
-    setChallenges([
-      ...challenges.filter((v) => v.id !== challenge.id),
-      challenge,
-    ]);
+    setGamesFromDB();
+  }, []);
+  const newGame = async (name: string, _challenges: string[]) => {
+    try {
+      await addDoc(collectionRef, {
+        name: name,
+        challenges: _challenges,
+      });
+      setGamesFromDB();
+    } catch (err) {
+      console.log(err);
+    }
   };
-
-  const newChallenge = (challenge: IChallenge) => {
-    if (challenges.length > 0)
-      challenge.id = Math.max(...challenges.map((v) => v.id)) + 1;
-    else challenge.id = 0;
-    setChallenges([...challenges, challenge]);
-  };
-
-  const deleteChallenge = (id: number) => {
-    const challengeToDelete = challenges.find((v) => v.id === id);
-    if (challengeToDelete) setChallenges(challenges.filter((v) => v.id !== id));
-  };
-  const getChallengesByDifficulty = (difficulty: number) => {
-    return challenges.filter((v) => v.difficulty === difficulty);
-  };
-  const setDefaultChallenges = () => {
-    const c = defaultChallenges.map((v, i) => {
-      const id = Math.max(...challenges.map((v) => v.id)) + 1;
-      if (id !== -Infinity) return { ...v, id: id + i };
-      else return { ...v, id: i };
+  const setGamesFromDB = () => {
+    getAllExistingGames().then((res) => {
+      if (res) setGames(res);
     });
-    setChallenges([...challenges, ...c]);
   };
-  const getRandomChallengeByDifficulty = (difficulty: number) => {
-    return challenges.filter((v) => v.difficulty === difficulty)[
-      Math.floor(
-        Math.random() *
-          challenges.filter((v) => v.difficulty === difficulty).length
-      )
-    ];
+  const getAllExistingGames = async () => {
+    try {
+      const games = await getDocs(collectionRef);
+      const res = games.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      })) as IGame[];
+      return res;
+    } catch (err) {
+      console.log(err);
+    }
   };
-  return [
-    challenges,
-    editChallenge,
-    newChallenge,
-    deleteChallenge,
-    getChallengesByDifficulty,
-    setDefaultChallenges,
-    getRandomChallengeByDifficulty,
-  ] as const;
+  const editChallenge = async (id: string, challenges: string[]) => {
+    try {
+      const updateRef = doc(db, "game", id);
+      await updateDoc(updateRef, {
+        challenges,
+      });
+      setGamesFromDB();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  return { games, newGame, editChallenge };
 };
 export default useChallenges;
