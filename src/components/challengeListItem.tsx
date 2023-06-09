@@ -19,7 +19,7 @@ const ChallengeListItem = (props: any) => {
   };
 
   return (
-    <li className="flex mt-2 font-semibold justify-between" key={challenge}>
+    <li className="flex mt-4 font-semibold justify-between" key={challenge}>
       {editing ? (
         <form
           onSubmit={handleEdit}

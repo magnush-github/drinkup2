@@ -6,6 +6,7 @@ import useChallenges from "../hooks/useChallenges";
 import { IGame, Status } from "../types/types";
 import ReactPlayer from "react-player";
 import { youtubeParser } from "../utils/functions";
+import VideoJS from "../utils/video";
 const Play = () => {
   const [status, setStatus] = useState<Status>("new");
   const { games } = useChallenges();
@@ -13,6 +14,8 @@ const Play = () => {
     name: "initial",
     challenges: [],
     id: "",
+    lastUpdated: "",
+    created: "",
   });
   const [used, setUsed] = useState<string[]>([]);
   const [song, setSong] = useState("");
@@ -21,7 +24,16 @@ const Play = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [playerReady, setPlayerReady] = useState(false);
   const audio = useRef<HTMLAudioElement>();
-  const rP = useRef<ReactPlayer>(null);
+  const playerRef = useRef<any>(null);
+  const videoJsOptions = {
+    techOrder: ["youtube"],
+    sources: [
+      {
+        src: youtubeSong,
+        type: "video/youtube",
+      },
+    ],
+  };
   useEffect(() => {
     changeGame(games[0].id);
   }, [games]);
@@ -81,25 +93,26 @@ const Play = () => {
       setStatus(_status);
       return;
     }
-    if (playerReady) {
-      if (rP?.current?.getCurrentTime() && rP?.current?.getDuration()) {
-        if (rP.current.getCurrentTime() + 30 > rP.current.getDuration()) {
-          rP.current.seekTo(0);
-        }
-      }
-      rP?.current?.getInternalPlayer()?.playVideo();
-      setErrorMessage("");
-      setStatus(_status);
+    if (!playerReady) {
+      setErrorMessage("Player loading...");
       return;
     }
-    if (!errorMessage) setErrorMessage("Player loading...");
-    return;
+    const currentTime = playerRef.current?.currentTime() ?? 0;
+    const duration = playerRef.current?.duration() ?? 31;
+    if (currentTime + 30 > duration) {
+      playerRef.current?.currentTime(0);
+    }
+    playerRef.current?.play();
+    setErrorMessage("");
+    setStatus(_status);
   };
 
   const stopPlaying = (_status: Status) => {
-    rP?.current?.getInternalPlayer()?.pauseVideo();
     if (audio.current) {
       audio.current.pause();
+    }
+    if (playerRef.current) {
+      playerRef.current.pause();
     }
     setStatus(_status);
   };
@@ -127,13 +140,24 @@ const Play = () => {
     setYoutubeSong("");
     setErrorMessage("");
     setPlayerReady(false);
-    rP?.current?.getInternalPlayer()?.clearVideo();
+    playerRef.current?.dispose();
     if (audio.current) {
       audio.current.pause();
       audio.current.currentTime = 0;
     }
   };
+  const handlePlayerReady = (player: any) => {
+    playerRef.current = player;
+    setPlayerReady(true);
+    setErrorMessage("Player ready");
+    player.on("waiting", () => {
+      console.log("player is waiting");
+    });
 
+    player.on("dispose", () => {
+      console.log("player will dispose");
+    });
+  };
   return (
     <>
       <div className="grow flex flex-col justify-center gap-4">
@@ -145,9 +169,7 @@ const Play = () => {
             games={games}
           />
         )}
-        {status === "playing" && (
-          <GamePlaying rP={rP?.current} changeStatus={stopPlaying} />
-        )}
+        {status === "playing" && <GamePlaying changeStatus={stopPlaying} />}
         {status === "stopped" && (
           <ShowChallenge challenge={challenge} changeStatus={startPlaying} />
         )}
@@ -155,22 +177,11 @@ const Play = () => {
           {errorMessage}
         </p>
 
-        <ReactPlayer
-          playsinline
-          stopOnUnmount={true}
-          onReady={() => {
-            setPlayerReady(true);
-            setErrorMessage("Ready! Press play");
-          }}
-          onStart={() => {
-            setErrorMessage("");
-          }}
-          onError={(error) => setErrorMessage(JSON.stringify(error))}
-          url={youtubeSong}
-          height={0.00001}
-          width={0.00001}
-          ref={rP}
-        ></ReactPlayer>
+        {youtubeSong && (
+          <div className="absolute -top-96">
+            <VideoJS options={videoJsOptions} onReady={handlePlayerReady} />
+          </div>
+        )}
       </div>
       {status !== "new" && (
         <button

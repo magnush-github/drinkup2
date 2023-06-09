@@ -2,7 +2,8 @@ import { useState } from "react";
 
 import AddChallenge from "./addChallenge";
 import ChallengeListItem from "./challengeListItem";
-import { IGame } from "../types/types";
+import { IGame, IOption } from "../types/types";
+import Select from "react-select";
 
 interface IProps {
   newGame: (name: string, challenges: string[]) => Promise<void>;
@@ -16,6 +17,10 @@ const NewGame = ({ newGame, backToStart, games }: IProps) => {
   const [challenges, setChallenges] = useState<string[]>([]);
   const [template, setTemplate] = useState("0");
   const [errorMessage, setErrorMessage] = useState("");
+  const [selectedOption, setSelectedOption] = useState<any>({
+    label: "Fresh game",
+    value: "0",
+  });
   const addChallenge = (_challenge: string) => {
     setShowNew(false);
     setChallenges((challenges) => {
@@ -31,7 +36,13 @@ const NewGame = ({ newGame, backToStart, games }: IProps) => {
     });
   };
   const deleteChallenge = (index: number) => {
-    setChallenges((_challenges) => _challenges.filter((c, i) => i !== index));
+    // eslint-disable-next-line
+    const del = confirm(
+      "Are you sure you want to delete: " + challenges[index] + " ?"
+    );
+    if (del) {
+      setChallenges((_challenges) => _challenges.filter((c, i) => i !== index));
+    }
   };
   const saveGame = () => {
     newGame(name, challenges);
@@ -53,6 +64,18 @@ const NewGame = ({ newGame, backToStart, games }: IProps) => {
       return g ? g.challenges : [];
     });
   };
+
+  const handleSelectChange = (_selectedOption: IOption) => {
+    setTemplate(_selectedOption.value);
+    setSelectedOption(_selectedOption);
+  };
+  const options = [
+    {
+      label: "Fresh game",
+      value: "0",
+    },
+    ...games.map((game) => ({ label: game.name, value: game.id })),
+  ];
   return (
     <div className="mb-10 ">
       {!nameSet && (
@@ -82,21 +105,13 @@ const NewGame = ({ newGame, backToStart, games }: IProps) => {
             <label htmlFor="name">Use template</label>
           </div>
           <div>
-            <select
-              name="template"
-              id="template"
-              className="p-2 rounded w-full font-semibold mt-4"
-              onChange={(e) => setTemplate(e.target.value)}
-            >
-              <option value="0">Fresh game</option>
-              {games.map((game) => {
-                return (
-                  <option key={game.id} value={game.id}>
-                    {game.name}
-                  </option>
-                );
-              })}
-            </select>
+            <Select
+              onChange={handleSelectChange}
+              value={selectedOption}
+              options={options}
+              isSearchable={true}
+              placeholder="Start typing or use dropdown"
+            />
           </div>
           <button className="p-2 text-white bg-black font-semibold w-full rounded mt-6">
             Continue

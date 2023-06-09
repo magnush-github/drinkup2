@@ -1,4 +1,6 @@
-import { IGame, Status } from "../types/types";
+import { useState } from "react";
+import { IGame, IOption, Status } from "../types/types";
+import Select from "react-select";
 
 interface IProps {
   changeStatus: (status: Status) => void;
@@ -6,30 +8,32 @@ interface IProps {
   changeSong: (song: string) => void;
   games: IGame[];
 }
+
 const ChooseDifficulty = ({
   changeStatus,
   changeGame,
   changeSong,
   games,
 }: IProps) => {
+  const [selectedOption, setSelectedOption] = useState<any>();
+  const handleSelectChange = (_selectedOption: IOption) => {
+    changeGame(_selectedOption.value);
+    setSelectedOption(_selectedOption);
+  };
+  const options = games.map((game) => ({ label: game.name, value: game.id }));
   return (
-    <div className="flex flex-col text-center">
+    <div className="flex flex-col text-center ">
       <h2 className="text-xl font-bold mb-8 w-full">
         Choose a game and press play
       </h2>
-      <select
-        name="game"
-        id="game"
-        onChange={(e) => changeGame(e.target.value)}
-      >
-        {games.reverse().map((game) => {
-          return (
-            <option key={game.id} value={game.id}>
-              {game.name}
-            </option>
-          );
-        })}
-      </select>
+      <Select
+        onChange={handleSelectChange}
+        value={selectedOption}
+        options={options}
+        isSearchable={true}
+        placeholder="Start typing or use dropdown"
+      />
+
       <label htmlFor="song" className=" text-lg font font-bold mt-6">
         Paste a Youtube url or leave blank:
       </label>

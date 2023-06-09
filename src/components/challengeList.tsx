@@ -22,11 +22,16 @@ const ChallengeList = ({
     setShowAddChallenge(false);
   };
   const deleteChallenge = (index: number) => {
-    console.log(index);
-    editChallenge(
-      id,
-      challenges.filter((challenge, i) => i !== index)
+    // eslint-disable-next-line
+    const del = confirm(
+      "Are you sure you want to delete: " + challenges[index] + " ?"
     );
+    if (del) {
+      editChallenge(
+        id,
+        challenges.filter((challenge, i) => i !== index)
+      );
+    }
   };
   const handleEdit = (index: number, _challenge: string) => {
     editChallenge(id, [
